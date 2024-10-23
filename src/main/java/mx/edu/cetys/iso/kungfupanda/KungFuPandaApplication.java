@@ -26,19 +26,28 @@ public class KungFuPandaApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Introduce el tema sobre el cual quieres una frase de Kung Fu Panda:");
-        String userPrompt = scanner.nextLine();
+        String userPrompt;
 
-        String prompt = "Dame una frase de las peliculas de Kung Fu Panda sobre " + userPrompt;
-        String response = openAIService.getResponse(prompt);
+        while (true) {
+            System.out.println("Introduce el tema sobre el cual quieres una frase de Kung Fu Panda (o escribe 'exit' para salir):");
+            userPrompt = scanner.nextLine();
 
-        System.out.println("Frase de Kung Fu Panda: " + response);
+            if ("exit".equalsIgnoreCase(userPrompt)) {
+                System.out.println("Adiocito...");
+                break;
+            }
 
-        Quote quote = new Quote();
-        quote.setPrompt(prompt);
-        quote.setResponse(response);
+            String prompt = "Dame una frase de las peliculas de Kung Fu Panda sobre " + userPrompt;
+            String response = openAIService.getResponse(prompt);
 
-        quoteRepository.save(quote);
-        System.out.println("Frase guardada en la base de datos.");
+            System.out.println("Frase de Kung Fu Panda: " + response);
+
+            Quote quote = new Quote();
+            quote.setPrompt(prompt);
+            quote.setResponse(response);
+
+            quoteRepository.save(quote);
+            System.out.println("Frase guardada en la base de datos.");
+        }
     }
 }

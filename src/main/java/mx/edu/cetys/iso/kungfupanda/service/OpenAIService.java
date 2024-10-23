@@ -34,13 +34,10 @@ public class OpenAIService {
         try {
             ResponseEntity<String> response = restTemplate.exchange(apiUrl, HttpMethod.POST, request, String.class);
 
-            System.out.println("API Response: " + response.getBody());
-
             JSONObject jsonResponse = new JSONObject(response.getBody());
             JSONArray choices = jsonResponse.getJSONArray("choices");
 
             String chatGPTResponse = choices.getJSONObject(0).getJSONObject("message").getString("content");
-            System.out.println("ChatGPT Response: " + chatGPTResponse);
 
             return chatGPTResponse;
         } catch (Exception e) {
